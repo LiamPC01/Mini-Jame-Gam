@@ -13,5 +13,7 @@ UCLASS()
 class MINI_JAME_GAM_API AMini_Jame_GamGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+	virtual void StartPlay() override;
 	
 };
