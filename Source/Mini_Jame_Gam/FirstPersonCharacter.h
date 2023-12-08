@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "BulletActor.h"
 #include "FirstPersonCharacter.generated.h"
 
 

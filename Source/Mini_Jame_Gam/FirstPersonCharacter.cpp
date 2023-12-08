@@ -108,6 +108,13 @@ void AFirstPersonCharacter::StopJump()
 
 void AFirstPersonCharacter::Fire()
 {
-	
+	//Get Camera location
+	APlayerCameraManager* CamManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+	FVector CamLocation = CamManager->GetCameraLocation();
+
+	FVector SpawnLocation = (CamManager->GetActorForwardVector() * 200) + CamLocation;
+	FRotator SpawnRotation = CamManager->GetCameraRotation();
+
+	GetWorld()->SpawnActor<ABulletActor>(SpawnLocation, SpawnRotation);
 }
 
