@@ -66,6 +66,9 @@ void AFirstPersonCharacter::BeginPlay()
 		// The -1 "Key" value argument prevents the message from being updated or refreshed.
 		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
 	}
+
+	FTimerHandle TimerHandle;
+	//GetWorldTimerManager().SetTimer(TimerHandle, this, &AFirstPersonCharacter::CountDown);
 }
 
 // Called every frame
@@ -94,8 +97,7 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFirstPersonCharacter::StartFiring);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFirstPersonCharacter::StopFiring);
-	PlayerInputComponent->BindAction("Hoover", IE_Pressed, this, &AFirstPersonCharacter::Hoover);
-	PlayerInputComponent->BindAction("Hoover", IE_Released, this, &AFirstPersonCharacter::StopHoover);
+
 	
 	//PlayerInputComponent->BindAction("SpeedChange", IE_Pressed, this, &AFirstPersonCharacter::SpeedUp);
 	//PlayerInputComponent->BindAction("SpeedChange", IE_Pressed, this, &AFirstPersonCharacter::SpeedDown);
@@ -162,48 +164,14 @@ void AFirstPersonCharacter::StopFiring()
 	bIsShooting = false;
 	fireTimerHandle.Invalidate();
 }
+
+void AFirstPersonCharacter::CountDown()
+{
+	
+}
+
 void AFirstPersonCharacter::StartFiring()
 {
 	bIsShooting = true;
 	OnFire();
 }
-void AFirstPersonCharacter::Hoover()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Hoovering"));
-/*
-	//Get Camera location
-	CamManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
-	CamLocation = CamManager->GetCameraLocation();
-
-	FCollisionShape Shape = FCollisionShape::MakeSphere(25);
-
-	FHitResult OutHit;
-
-	FVector ForwardVector = GetActorForwardVector();
-	FVector Start = (ForwardVector * 100.f) + CamLocation;
-	FVector End = ((ForwardVector * 150.f) + Start);
-	FQuat Rotation;
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredComponent(PlayerCapsulePrim);
-
-	DrawDebugSphere(GetWorld(), Start, 25, 32, FColor::Red, false, 1);
-
-	if (GetWorld()->SweepSingleByChannel(OutHit, Start, End, Rotation, ECC_Pawn, Shape, CollisionParams))
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit"));
-
-
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Miss"));
-	}
-
-	*/	
-}
-
-void AFirstPersonCharacter::StopHoover()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Stopped Hoovering"));
-}
-

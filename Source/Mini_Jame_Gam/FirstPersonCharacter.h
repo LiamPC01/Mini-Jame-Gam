@@ -85,15 +85,9 @@ public:
 	UFUNCTION()
 	void StopFiring();
 
-	// Hoover functions
 	UFUNCTION()
-	void Hoover();
+    void CountDown();
 
-	UFUNCTION()
-	void StopHoover();
-
-	//UFUNCTION()
-	//void StopHoover();
 
 	// FPS camera
 	UPROPERTY(VisibleAnywhere)
@@ -109,11 +103,7 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sphere Overlap")
 	class USphereComponent* DeadZoneSphere;
-	
-	
 
-
-
-	
-
+	int Minutes = 2;
+	int Seconds = 0;
 };
