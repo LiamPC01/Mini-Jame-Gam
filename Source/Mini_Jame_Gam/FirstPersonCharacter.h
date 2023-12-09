@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "BulletActor.h"
+#include "DrawDebugHelpers.h"
 #include "FirstPersonCharacter.generated.h"
 
 
@@ -26,6 +27,13 @@ protected:
 	// Projectile class to spawn.
 	//UPROPERTY(EditDefaultsOnly, Category = Projectile)
 	//TSubclassOf<class AFPSProjectile> ProjectileClass;
+
+	// Casting own Capsule Component to primitive so it can be ignored by linetrace
+	UCapsuleComponent* PlayerCapsule = GetCapsuleComponent();
+	UPrimitiveComponent* PlayerCapsulePrim = Cast<UPrimitiveComponent>(PlayerCapsule);
+
+	APlayerCameraManager* CamManager;
+	FVector CamLocation;
 
 public:	
 	// Called every frame
@@ -54,6 +62,13 @@ public:
 	// Function that handles firing projectiles.
 	UFUNCTION()
 	void Fire();
+
+	// Hoover functions
+	UFUNCTION()
+	void Hoover();
+
+	UFUNCTION()
+	void StopHoover();
 
 	// FPS camera
 	UPROPERTY(VisibleAnywhere)
