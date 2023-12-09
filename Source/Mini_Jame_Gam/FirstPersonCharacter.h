@@ -35,13 +35,13 @@ protected:
 	APlayerCameraManager* CamManager;
 	FVector CamLocation;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
 	int Ammo;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
 	float FireRate;
 
-	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Default")
 	float bIsAutomatic;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")

@@ -45,7 +45,6 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	DeadZoneSphere->SetWorldLocation(FVector(92.37735f,24.219597f, 113.603401f));
 	DeadZoneSphere->SetWorldRotation(FRotator(-10.903551f,-22.635757f, 26.588614f));
 	DeadZoneSphere->SetWorldScale3D(FVector(1.1425f,3.794096, 3.794096f));
-	DeadZoneSphere->SetCollisionObjectType(ECC_OverlapAll_Deprecated);
 	DeadZoneSphere->SetupAttachment(FPSCameraComponent);
 	
 	Ammo = 100;
