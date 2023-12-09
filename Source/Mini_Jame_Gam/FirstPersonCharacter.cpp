@@ -39,6 +39,20 @@ AFirstPersonCharacter::AFirstPersonCharacter()
 	// The owning player doesn't see the regular (third-person) body mesh.
 	GetMesh()->SetOwnerNoSee(true);
 
+
+	DeadZoneSphere = CreateDefaultSubobject<USphereComponent>(FName("Dead Zone Sphere"));
+	DeadZoneSphere->SetSphereRadius(32);
+	DeadZoneSphere->SetWorldLocation(FVector(92.37735f,24.219597f, 113.603401f));
+	DeadZoneSphere->SetWorldRotation(FRotator(-10.903551f,-22.635757f, 26.588614f));
+	DeadZoneSphere->SetWorldScale3D(FVector(1.1425f,3.794096, 3.794096f));
+	DeadZoneSphere->SetCollisionObjectType(ECC_OverlapAll_Deprecated);
+	DeadZoneSphere->SetupAttachment(FPSCameraComponent);
+	
+	Ammo = 100;
+	FireRate = 0.05f;
+	bIsAutomatic = true;
+	bIsShooting = false;
+
 }
 
 // Called when the game starts or when spawned
@@ -78,9 +92,14 @@ void AFirstPersonCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFirstPersonCharacter::StartJump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AFirstPersonCharacter::StopJump);
 
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFirstPersonCharacter::Fire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFirstPersonCharacter::StartFiring);
+	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AFirstPersonCharacter::StopFiring);
 	PlayerInputComponent->BindAction("Hoover", IE_Pressed, this, &AFirstPersonCharacter::Hoover);
 	PlayerInputComponent->BindAction("Hoover", IE_Released, this, &AFirstPersonCharacter::StopHoover);
+	
+	//PlayerInputComponent->BindAction("SpeedChange", IE_Pressed, this, &AFirstPersonCharacter::SpeedUp);
+	//PlayerInputComponent->BindAction("SpeedChange", IE_Pressed, this, &AFirstPersonCharacter::SpeedDown);
+	
 
 }
 
@@ -108,22 +127,50 @@ void AFirstPersonCharacter::StopJump()
 	bPressedJump = false;
 }
 
-void AFirstPersonCharacter::Fire()
+void AFirstPersonCharacter::OnFire()
 {
-	//Get Camera location
-	CamManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
-	CamLocation = CamManager->GetCameraLocation();
+	if(bIsShooting)
+	{
 
-	FVector SpawnLocation = (CamManager->GetActorForwardVector() * 200) + CamLocation;
-	FRotator SpawnRotation = CamManager->GetCameraRotation();
+		if(ProjectileClass != NULL)
+		{
+			if(Ammo > 0)
+			{
+				CamManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
+				CamLocation = CamManager->GetCameraLocation();
 
-	GetWorld()->SpawnActor<ABulletActor>(SpawnLocation, SpawnRotation);
+				FVector SpawnLocation = (CamManager->GetActorForwardVector() * 200) + CamLocation;
+				FRotator SpawnRotation = CamManager->GetCameraRotation();
+				GetWorld()->SpawnActor<ABulletActor>(ProjectileClass, SpawnLocation, SpawnRotation);
+
+				GetWorld()->GetTimerManager().SetTimer(fireTimerHandle, this, &AFirstPersonCharacter::OnFire, FireRate, false);
+				Ammo-= 1;
+			}
+			
+
+		}else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Weapon not valid"));
+		}
+	}
 }
 
+
+
+void AFirstPersonCharacter::StopFiring()
+{
+	bIsShooting = false;
+	fireTimerHandle.Invalidate();
+}
+void AFirstPersonCharacter::StartFiring()
+{
+	bIsShooting = true;
+	OnFire();
+}
 void AFirstPersonCharacter::Hoover()
 {
 	//UE_LOG(LogTemp, Warning, TEXT("Hoovering"));
-
+/*
 	//Get Camera location
 	CamManager = GetWorld()->GetFirstPlayerController()->PlayerCameraManager;
 	CamLocation = CamManager->GetCameraLocation();
@@ -152,7 +199,7 @@ void AFirstPersonCharacter::Hoover()
 		UE_LOG(LogTemp, Warning, TEXT("Miss"));
 	}
 
-		
+	*/	
 }
 
 void AFirstPersonCharacter::StopHoover()

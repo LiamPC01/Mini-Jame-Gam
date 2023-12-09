@@ -25,8 +25,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	// Projectile class to spawn.
-	//UPROPERTY(EditDefaultsOnly, Category = Projectile)
-	//TSubclassOf<class AFPSProjectile> ProjectileClass;
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class ABulletActor> ProjectileClass;
 
 	// Casting own Capsule Component to primitive so it can be ignored by linetrace
 	UCapsuleComponent* PlayerCapsule = GetCapsuleComponent();
@@ -34,6 +34,20 @@ protected:
 
 	APlayerCameraManager* CamManager;
 	FVector CamLocation;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
+	int Ammo;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
+	float FireRate;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
+	float bIsAutomatic;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category="Default")
+	bool bIsShooting;
+
+	FTimerHandle fireTimerHandle;
 
 public:	
 	// Called every frame
@@ -61,7 +75,15 @@ public:
 
 	// Function that handles firing projectiles.
 	UFUNCTION()
-	void Fire();
+	void OnFire();
+
+	// Function that handles firing projectiles.
+	UFUNCTION()
+	void StartFiring();
+
+	// Function that handles firing projectiles.
+	UFUNCTION()
+	void StopFiring();
 
 	// Hoover functions
 	UFUNCTION()
@@ -69,6 +91,9 @@ public:
 
 	UFUNCTION()
 	void StopHoover();
+
+	//UFUNCTION()
+	//void StopHoover();
 
 	// FPS camera
 	UPROPERTY(VisibleAnywhere)
@@ -81,7 +106,11 @@ public:
 	// Gun muzzle offset from the camera location.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	FVector MuzzleOffset;
-
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sphere Overlap")
+	class USphereComponent* DeadZoneSphere;
+	
+	
 
 
 
