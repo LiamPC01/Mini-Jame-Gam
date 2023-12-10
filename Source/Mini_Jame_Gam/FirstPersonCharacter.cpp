@@ -63,7 +63,7 @@ void AFirstPersonCharacter::BeginPlay()
 	{
 		// Display a debug message for five seconds. 
 		// The -1 "Key" value argument prevents the message from being updated or refreshed.
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using FPSCharacter."));
+		
 	}
 
 	FTimerHandle TimerHandle;
@@ -151,7 +151,7 @@ void AFirstPersonCharacter::OnFire()
 
 		}else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Weapon not valid"));
+			
 		}
 	}
 }

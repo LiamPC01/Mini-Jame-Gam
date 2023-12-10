@@ -7,7 +7,7 @@ void AFirstPersonHud::DrawHUD()
 {
 	Super::DrawHUD();
 
-	if (CrosshairTexture)
+	/*if (CrosshairTexture)
 	{
 		// Find the center of our canvas.
 		FVector2D Center(Canvas->ClipX * 0.5f, Canvas->ClipY * 0.5f);
@@ -20,4 +20,5 @@ void AFirstPersonHud::DrawHUD()
 		TileItem.BlendMode = SE_BLEND_Translucent;
 		Canvas->DrawItem(TileItem);
 	}
+	*/
 }
