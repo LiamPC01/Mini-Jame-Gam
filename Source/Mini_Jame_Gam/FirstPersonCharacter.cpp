@@ -146,6 +146,7 @@ void AFirstPersonCharacter::OnFire()
 
 				GetWorld()->GetTimerManager().SetTimer(fireTimerHandle, this, &AFirstPersonCharacter::OnFire, FireRate, false);
 				Ammo-= 1;
+				UGameplayStatics::PlaySound2D(GetWorld(), Shoot, 1, 1, 0);
 			}
 			
 

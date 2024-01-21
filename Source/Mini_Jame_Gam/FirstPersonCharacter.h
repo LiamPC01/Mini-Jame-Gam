@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "BulletActor.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
 #include "FirstPersonCharacter.generated.h"
 
 
@@ -48,6 +49,9 @@ protected:
 	bool bIsShooting;
 
 	FTimerHandle fireTimerHandle;
+
+	UPROPERTY(EditAnywhere, Category = "Sound")
+	class USoundBase* Shoot;
 
 public:	
 	// Called every frame
